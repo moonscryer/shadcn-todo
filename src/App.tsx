@@ -2,6 +2,7 @@ import { ThemeProvider } from "./components/Theme";
 import Layout from "./components/Layout";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
+import Filters from "./components/Filters";
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <Layout />
           <Form />
+          <Filters />
           <TodoList />
         </ThemeProvider>
       </div>

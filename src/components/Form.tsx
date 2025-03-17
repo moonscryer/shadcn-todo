@@ -18,7 +18,7 @@ const Form: React.FC = () => {
 
   const handleSubmit = () => {
     if (text && category) {
-      dispatch(addTodo({ text, category }));
+      dispatch(addTodo({ text, description: "", category }));
       setText(""); // Clear input field
       setCategory(""); // Reset category selection
     }

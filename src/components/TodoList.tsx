@@ -23,7 +23,7 @@ const getCategoryColor = (category: string): string => {
     case "shopping":
       return "bg-purple-500 text-white";
     default:
-      return "bg-gray-500 text-white"; // Default color
+      return "bg-gray-500 text-white";
   }
 };
 
@@ -32,7 +32,7 @@ const TodoList: React.FC = () => {
   const dispatch = useDispatch();
 
   return (
-    <ul>
+    <ul className="flex flex-col gap-2">
       {todos.map((todo) => (
         <li
           key={todo.id}
