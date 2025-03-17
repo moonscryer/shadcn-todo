@@ -10,6 +10,23 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 
+const getCategoryColor = (category: string): string => {
+  switch (category) {
+    case "health":
+      return "bg-red-500 text-white";
+    case "personal":
+      return "bg-blue-500 text-white";
+    case "learning":
+      return "bg-green-500 text-white";
+    case "work":
+      return "bg-yellow-500 text-black";
+    case "shopping":
+      return "bg-purple-500 text-white";
+    default:
+      return "bg-gray-500 text-white"; // Default color
+  }
+};
+
 const TodoList: React.FC = () => {
   const todos = useSelector((state: RootState) => state.todos);
   const dispatch = useDispatch();
@@ -38,9 +55,14 @@ const TodoList: React.FC = () => {
             </Collapsible>
           </span>
           <span className="flex gap-5">
-            <Badge>{todo.category}</Badge>
-            <Pencil />
-            <X onClick={() => dispatch(removeTodo(todo.id))} />
+            <Badge className={getCategoryColor(todo.category)}>
+              {todo.category}
+            </Badge>
+            <Pencil className="cursor-pointer rounded-sm hover:bg-green-400/10" />
+            <X
+              className="cursor-pointer rounded-sm hover:bg-red-500/10"
+              onClick={() => dispatch(removeTodo(todo.id))}
+            />
           </span>
         </li>
       ))}

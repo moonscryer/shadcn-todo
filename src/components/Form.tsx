@@ -44,7 +44,7 @@ const Form: React.FC = () => {
           <SelectItem value="shopping">Shopping</SelectItem>
         </SelectContent>
       </Select>
-      <Button type="button" onClick={handleSubmit}>
+      <Button type="button" className="cursor-pointer" onClick={handleSubmit}>
         + Add
       </Button>
     </div>
