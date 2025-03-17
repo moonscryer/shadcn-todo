@@ -17,10 +17,11 @@ const Form = () => {
           <SelectValue placeholder="Category" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="system">Health</SelectItem>
-          <SelectItem value="system">Personal</SelectItem>
-          <SelectItem value="light">Work</SelectItem>
-          <SelectItem value="dark">Shopping</SelectItem>
+          <SelectItem value="health">Health</SelectItem>
+          <SelectItem value="personal">Personal</SelectItem>
+          <SelectItem value="learning">Learning</SelectItem>
+          <SelectItem value="work">Work</SelectItem>
+          <SelectItem value="shopping">Shopping</SelectItem>
         </SelectContent>
       </Select>
       <Button type="submit">+ Add</Button>

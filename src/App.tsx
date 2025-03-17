@@ -4,7 +4,7 @@ import Form from "./components/Form";
 
 const App = () => {
   return (
-    <main className="grid min-h-screen max-w-xl gap-5 place-self-center">
+    <main className="grid max-w-xl gap-5 place-self-center">
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <Layout />
         <Form />
