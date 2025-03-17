@@ -1,13 +1,15 @@
 import { ThemeProvider } from "./components/Theme";
 import Layout from "./components/Layout";
+import Form from "./components/Form";
 
 const App = () => {
   return (
-    <div className="grid min-h-screen place-items-center">
+    <main className="grid min-h-screen max-w-xl gap-5 place-self-center">
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <Layout />
+        <Form />
       </ThemeProvider>
-    </div>
+    </main>
   );
 };
 export default App;
