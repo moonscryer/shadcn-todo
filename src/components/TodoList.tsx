@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Pencil, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Checkbox } from "./ui/checkbox";
@@ -7,14 +8,20 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 
-const TodoList = () => {
+const TodoList: React.FC = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
   return (
     <ul>
-      <li className="flex justify-between gap-2">
+      <li className="flex justify-between gap-2 rounded-md border border-gray-400/30 p-4">
         <span className="flex gap-5">
-          <Checkbox />
+          <Checkbox onCheckedChange={() => setIsChecked(!isChecked)} />
           <Collapsible>
-            <CollapsibleTrigger>Redux with Shadcn</CollapsibleTrigger>
+            <CollapsibleTrigger
+              className={isChecked ? "text-gray-500 line-through" : ""}
+            >
+              Redux with Shadcn
+            </CollapsibleTrigger>
             <CollapsibleContent>
               Exercise from 17/03 given by David. We are committing the changes
               straight to the main branch because we like to live dangerously.
@@ -30,4 +37,5 @@ const TodoList = () => {
     </ul>
   );
 };
+
 export default TodoList;

@@ -1,7 +1,7 @@
 import { combineReducers, createStore } from "redux";
-// import logger from "redux-logger";
+import todoReducer from "./todoSlice";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({ reducer: { todos: todoReducer } });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
