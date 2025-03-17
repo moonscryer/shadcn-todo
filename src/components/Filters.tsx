@@ -11,7 +11,7 @@ const Filters = () => {
     <section className="flex gap-5">
       <Select>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="All Categories" />
+          <SelectValue placeholder="Filter by category..." />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="health">Health</SelectItem>
@@ -23,7 +23,7 @@ const Filters = () => {
       </Select>
       <Select>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="All Status" />
+          <SelectValue placeholder="Filter by status..." />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="pending">Pending</SelectItem>
