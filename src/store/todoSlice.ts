@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 
 interface Todo {
   id: number;
@@ -40,6 +41,7 @@ const todoSlice = createSlice({
         category: action.payload.category,
         completed: false,
       });
+      toast("Todo added successfully.");
       saveTodos(state); // Save updated state to local storage
     },
     toggleTodo: (state, action: PayloadAction<number>) => {
@@ -51,6 +53,7 @@ const todoSlice = createSlice({
     },
     removeTodo: (state, action: PayloadAction<number>) => {
       const newState = state.filter((todo) => todo.id !== action.payload);
+      toast("Todo removed successfully.");
       saveTodos(newState); // Save updated state to local storage
       return newState;
     },

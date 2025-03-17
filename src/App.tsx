@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
 import Filters from "./components/Filters";
+import { Toaster } from "./components/ui/sonner";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Form />
           <Filters />
           <TodoList />
+          <Toaster />
         </ThemeProvider>
       </div>
     </main>
