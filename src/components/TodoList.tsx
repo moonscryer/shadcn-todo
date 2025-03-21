@@ -88,11 +88,15 @@ const TodoList: React.FC = () => {
               <Badge className={getCategoryColor(todo.category)}>
                 {todo.category}
               </Badge>
-              <Pencil className="cursor-pointer rounded-sm hover:bg-green-400/10" />
-              <X
-                className="cursor-pointer rounded-sm hover:bg-red-500/10"
+              <span className="group cursor-pointer">
+                <Pencil className="text-gray-700 group-hover:text-green-500" />
+              </span>
+              <span
+                className="group cursor-pointer"
                 onClick={() => dispatch(removeTodo(todo.id))}
-              />
+              >
+                <X className="text-gray-700 group-hover:text-red-500" />
+              </span>
             </span>
           </li>
         ))}
