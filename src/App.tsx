@@ -4,15 +4,19 @@ import Form from "./components/Form";
 import TodoList from "./components/TodoList";
 import Filters from "./components/Filters";
 import { Toaster } from "./components/ui/sonner";
+import { RootState } from "./store";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const todos = useSelector((state: RootState) => state.todos); // Get todos from Redux
+
   return (
     <main className="grid min-h-screen">
       <div className="grid w-2xl gap-5 place-self-center">
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <Layout />
           <Form />
-          <Filters />
+          {todos.length > 0 && <Filters />}
           <TodoList />
           <Toaster />
         </ThemeProvider>

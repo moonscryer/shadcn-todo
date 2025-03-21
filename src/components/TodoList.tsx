@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/store"; // Import RootState
+import { RootState } from "@/store";
 import { removeTodo, toggleTodo } from "@/store/todoSlice";
 import { Pencil, X } from "lucide-react";
 import { Badge } from "./ui/badge";
@@ -29,11 +29,22 @@ const getCategoryColor = (category: string): string => {
 
 const TodoList: React.FC = () => {
   const todos = useSelector((state: RootState) => state.todos);
+  const { category, status } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
+
+  const filteredTodos = todos.filter((todo) => {
+    const categoryMatch = category === "all" || todo.category === category;
+    const statusMatch =
+      status === "all" ||
+      (status === "pending" && !todo.completed) ||
+      (status === "done" && todo.completed);
+
+    return categoryMatch && statusMatch;
+  });
 
   return (
     <ul className="flex flex-col gap-2">
-      {todos.map((todo) => (
+      {filteredTodos.map((todo) => (
         <li
           key={todo.id}
           className="flex justify-between gap-2 rounded-md border border-gray-400/30 p-4"
