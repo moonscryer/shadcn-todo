@@ -6,6 +6,7 @@ import Filters from "./components/Filters";
 import { Toaster } from "./components/ui/sonner";
 import { RootState } from "./store";
 import { useSelector } from "react-redux";
+import { Pagination } from "./components/ui/pagination";
 
 const App = () => {
   const todos = useSelector((state: RootState) => state.todos); // Get todos from Redux
@@ -19,6 +20,7 @@ const App = () => {
           {todos.length > 0 && <Filters />}
           <TodoList />
           <Toaster />
+          <Pagination />
         </ThemeProvider>
       </div>
     </main>

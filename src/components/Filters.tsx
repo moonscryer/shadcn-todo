@@ -26,7 +26,10 @@ const Filters = () => {
 
   return (
     <section className="flex gap-5">
-      <Select onValueChange={handleCategoryChange} value={category}>
+      <Select
+        onValueChange={handleCategoryChange}
+        value={category !== "all" ? category : undefined}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Filter by category..." />
         </SelectTrigger>
@@ -40,7 +43,10 @@ const Filters = () => {
         </SelectContent>
       </Select>
 
-      <Select onValueChange={handleStatusChange} value={status}>
+      <Select
+        onValueChange={handleStatusChange}
+        value={status !== "all" ? status : undefined}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Filter by status..." />
         </SelectTrigger>

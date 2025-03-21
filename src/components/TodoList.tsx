@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { removeTodo, toggleTodo } from "@/store/todoSlice";
@@ -9,6 +10,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "./ui/pagination";
 
 const getCategoryColor = (category: string): string => {
   switch (category) {
@@ -32,6 +40,9 @@ const TodoList: React.FC = () => {
   const { category, status } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 5;
+
   const filteredTodos = todos.filter((todo) => {
     const categoryMatch = category === "all" || todo.category === category;
     const statusMatch =
@@ -42,42 +53,82 @@ const TodoList: React.FC = () => {
     return categoryMatch && statusMatch;
   });
 
+  const totalPages = Math.ceil(filteredTodos.length / todosPerPage);
+  const startIndex = (currentPage - 1) * todosPerPage;
+  const paginatedTodos = filteredTodos.slice(
+    startIndex,
+    startIndex + todosPerPage,
+  );
+
   return (
-    <ul className="flex flex-col gap-2">
-      {filteredTodos.map((todo) => (
-        <li
-          key={todo.id}
-          className="flex justify-between gap-2 rounded-md border border-gray-400/30 p-4"
-        >
-          <span className="flex gap-5">
-            <Checkbox
-              checked={todo.completed}
-              onCheckedChange={() => dispatch(toggleTodo(todo.id))}
-            />
-            <Collapsible>
-              <CollapsibleTrigger
-                className={todo.completed ? "text-gray-500 line-through" : ""}
-              >
-                {todo.text}
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                Add description for {todo.text}.
-              </CollapsibleContent>
-            </Collapsible>
-          </span>
-          <span className="flex gap-5">
-            <Badge className={getCategoryColor(todo.category)}>
-              {todo.category}
-            </Badge>
-            <Pencil className="cursor-pointer rounded-sm hover:bg-green-400/10" />
-            <X
-              className="cursor-pointer rounded-sm hover:bg-red-500/10"
-              onClick={() => dispatch(removeTodo(todo.id))}
-            />
-          </span>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className="flex flex-col gap-2">
+        {paginatedTodos.map((todo) => (
+          <li
+            key={todo.id}
+            className="flex justify-between gap-2 rounded-md border border-gray-400/30 p-4"
+          >
+            <span className="flex gap-5">
+              <Checkbox
+                checked={todo.completed}
+                onCheckedChange={() => dispatch(toggleTodo(todo.id))}
+              />
+              <Collapsible>
+                <CollapsibleTrigger
+                  className={todo.completed ? "text-gray-500 line-through" : ""}
+                >
+                  {todo.text}
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  Add description for {todo.text}.
+                </CollapsibleContent>
+              </Collapsible>
+            </span>
+            <span className="flex gap-5">
+              <Badge className={getCategoryColor(todo.category)}>
+                {todo.category}
+              </Badge>
+              <Pencil className="cursor-pointer rounded-sm hover:bg-green-400/10" />
+              <X
+                className="cursor-pointer rounded-sm hover:bg-red-500/10"
+                onClick={() => dispatch(removeTodo(todo.id))}
+              />
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      {totalPages > 1 && (
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              />
+            </PaginationItem>
+
+            {[...Array(totalPages)].map((_, index) => (
+              <PaginationItem key={index}>
+                <button
+                  className={`rounded-md px-3 py-1 ${currentPage === index + 1 ? "bg-gray-300" : "hover:bg-gray-100"}`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              </PaginationItem>
+            ))}
+
+            <PaginationItem>
+              <PaginationNext
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
+    </div>
   );
 };
 
