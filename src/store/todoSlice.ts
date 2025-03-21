@@ -42,23 +42,36 @@ const todoSlice = createSlice({
         completed: false,
       });
       toast("Todo added successfully.");
-      saveTodos(state); // Save updated state to local storage
+      saveTodos(state); //
     },
     toggleTodo: (state, action: PayloadAction<number>) => {
       const todo = state.find((t) => t.id === action.payload);
       if (todo) {
         todo.completed = !todo.completed;
       }
-      saveTodos(state); // Save updated state to local storage
+      saveTodos(state);
     },
     removeTodo: (state, action: PayloadAction<number>) => {
       const newState = state.filter((todo) => todo.id !== action.payload);
       toast("Todo removed successfully.");
-      saveTodos(newState); // Save updated state to local storage
+      saveTodos(newState);
       return newState;
+    },
+    updateTodo: (
+      state,
+      action: PayloadAction<{ id: number; text: string; description: string }>,
+    ) => {
+      const todo = state.find((t) => t.id === action.payload.id);
+      if (todo) {
+        todo.text = action.payload.text;
+        todo.description = action.payload.description;
+        toast("Todo updated successfully.");
+      }
+      saveTodos(state);
     },
   },
 });
 
-export const { addTodo, toggleTodo, removeTodo } = todoSlice.actions;
+export const { addTodo, toggleTodo, removeTodo, updateTodo } =
+  todoSlice.actions;
 export default todoSlice.reducer;

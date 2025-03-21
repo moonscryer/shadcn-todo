@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
-import { removeTodo, toggleTodo } from "@/store/todoSlice";
+import { removeTodo, toggleTodo, updateTodo } from "@/store/todoSlice";
 import { Pencil, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Checkbox } from "./ui/checkbox";
@@ -17,6 +17,16 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
 
 const getCategoryColor = (category: string): string => {
   switch (category) {
@@ -39,6 +49,19 @@ const TodoList: React.FC = () => {
   const todos = useSelector((state: RootState) => state.todos);
   const { category, status } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
+
+  const [editingTodo, setEditingTodo] = useState<{
+    id: number;
+    text: string;
+    description: string;
+  } | null>(null);
+
+  const handleSave = () => {
+    if (editingTodo) {
+      dispatch(updateTodo(editingTodo));
+      setEditingTodo(null); // Close dialog
+    }
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const todosPerPage = 5;
@@ -80,7 +103,7 @@ const TodoList: React.FC = () => {
                   {todo.text}
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  Add description for {todo.text}.
+                  {todo.description || `Add description for ${todo.text}.`}
                 </CollapsibleContent>
               </Collapsible>
             </span>
@@ -88,9 +111,54 @@ const TodoList: React.FC = () => {
               <Badge className={getCategoryColor(todo.category)}>
                 {todo.category}
               </Badge>
-              <span className="group cursor-pointer">
-                <Pencil className="text-gray-700 group-hover:text-green-500" />
-              </span>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <span
+                    className="group cursor-pointer"
+                    onClick={() =>
+                      setEditingTodo({
+                        id: todo.id,
+                        text: todo.text,
+                        description: todo.description || "",
+                      })
+                    }
+                  >
+                    <Pencil className="text-gray-700 group-hover:text-green-500" />
+                  </span>
+                </DialogTrigger>
+                {editingTodo && (
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Edit Todo</DialogTitle>
+                    </DialogHeader>
+                    <Input
+                      value={editingTodo.text}
+                      onChange={(e) =>
+                        setEditingTodo({ ...editingTodo, text: e.target.value })
+                      }
+                    />
+                    <Textarea
+                      value={editingTodo.description}
+                      placeholder="Add a description..."
+                      onChange={(e) =>
+                        setEditingTodo({
+                          ...editingTodo,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                    <div className="flex justify-end gap-3">
+                      <Button
+                        variant="outline"
+                        onClick={() => setEditingTodo(null)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button onClick={handleSave}>Save</Button>
+                    </div>
+                  </DialogContent>
+                )}
+              </Dialog>
               <span
                 className="group cursor-pointer"
                 onClick={() => dispatch(removeTodo(todo.id))}
